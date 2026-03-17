@@ -12,13 +12,14 @@ jobs:
         uses: nttldev/setup-ndk@v1
         with:
           ndk-version: r25c
-      - name: Build with ndk-build
+      - name: Find and build
         run: |
-          ls -la  # 先看看解压后的目录结构
-          cd jni
+          # 自动找到包含 Android.mk 的目录并构建
+          ANDROID_MK_DIR=$(find . -name "Android.mk" -exec dirname {} \;)
+          cd "$ANDROID_MK_DIR"
           ndk-build
       - name: Upload built libs
         uses: actions/upload-artifact@v4
         with:
           name: built-libs
-          path: jni/libs/
+          path: "**/libs/"
