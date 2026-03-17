@@ -10,21 +10,19 @@ jobs:
       - name: Unzip source
         run: unzip jni.src.zip -d .
       
-      - name: List all files
-        run: find . -name "Android.mk"
+      - name: Install NDK manually
+        run: |
+          wget -q https://dl.google.com/android/repository/android-ndk-r25c-linux.zip
+          unzip -q android-ndk-r25c-linux.zip -d $HOME
+          echo "NDK_HOME=$HOME/android-ndk-r25c" >> $GITHUB_ENV
+          echo "$HOME/android-ndk-r25c" >> $GITHUB_PATH
       
-      - name: Setup Android SDK & NDK
-        uses: android-actions/setup-android@v2
-        with:
-          ndk-version: 25.2.9519653
-      
-      - name: Build with correct NDK path
+      - name: Build with NDK
         run: |
           ANDROID_MK_DIR=$(find . -name "Android.mk" -exec dirname {} \;)
-          NDK_BIN=$ANDROID_HOME/ndk/25.2.9519653/toolchains/llvm/prebuilt/linux-x86_64/bin
-          export PATH=$NDK_BIN:$PATH
+          export PATH=$NDK_HOME:$PATH
           cd "$ANDROID_MK_DIR"
-          ndk-build
+          $NDK_HOME/ndk-build
       
       - name: Upload built libs
         uses: actions/upload-artifact@v4
