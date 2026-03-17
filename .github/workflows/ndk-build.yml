@@ -16,8 +16,9 @@ jobs:
         run: |
           # 自动找到包含 Android.mk 的目录并构建
           ANDROID_MK_DIR=$(find . -name "Android.mk" -exec dirname {} \;)
+          ANDROID_NDK_ROOT=$ANDROID_HOME/ndk/25.2.9519653
           cd "$ANDROID_MK_DIR"
-          ndk-build
+          $ANDROID_NDK_ROOT/ndk-build
       - name: Upload built libs
         uses: actions/upload-artifact@v4
         with:
