@@ -1,4 +1,4 @@
-name: Build NDK Library
+name: 构建NDK库
 on: [push]
 
 jobs:
@@ -7,7 +7,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Unzip source
-        run: unzip jni.src.zip -d jni
+        run: unzip jni.src.zip -d .  # 关键修改：解压到当前目录
       - name: Setup NDK
         uses: nttldev/setup-ndk@v1
         with:
