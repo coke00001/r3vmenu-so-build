@@ -6,14 +6,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      
       - name: Unzip source
         run: unzip jni.src.zip -d .
+      
       - name: List all files
         run: find . -name "Android.mk"
+      
       - name: Setup Android SDK & NDK
         uses: android-actions/setup-android@v2
         with:
           ndk-version: 25.2.9519653
+      
       - name: Build with correct NDK path
         run: |
           ANDROID_MK_DIR=$(find . -name "Android.mk" -exec dirname {} \;)
@@ -21,6 +25,7 @@ jobs:
           export PATH=$NDK_BIN:$PATH
           cd "$ANDROID_MK_DIR"
           ndk-build
+      
       - name: Upload built libs
         uses: actions/upload-artifact@v4
         with:
