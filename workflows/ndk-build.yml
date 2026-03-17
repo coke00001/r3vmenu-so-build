@@ -1,0 +1,23 @@
+姓名: 构建NDK库
+在……之上: [推]
+
+工作:
+建立:
+连续的: ubuntu-最新
+步骤:
+      - uses: 操作/结帐@v4
+      - 姓名: 解压缩源
+跑: 解压缩jni.src.zip-d jni
+      - 姓名: 安装NDK
+uses: nttldev/setup-ndk@v1
+和……一起:
+ndk-版本: r25c
+      - 姓名: 使用ndk-build生成
+跑: |
+CD jni
+ndk-build
+      - 姓名: 上传构建的库
+uses: 操作/上载工件@v4
+和……一起:
+姓名: built-libs
+路径: JNI/libs/
